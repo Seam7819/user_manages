@@ -9,7 +9,7 @@ const logInUser = async(req:Request,res:Response)=>{
         res.status(200).json({
             success: true,
             message : "login successful",
-            data: result.rows[0],
+            data: result,
         })
     }catch(err:any){
         res.status(500).json({

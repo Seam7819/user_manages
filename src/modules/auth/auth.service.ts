@@ -1,5 +1,7 @@
 import  bcrypt  from 'bcryptjs';
-import { pool } from "../../config/db"
+import { pool } from "../../config/db";
+import jwt from "jsonwebtoken"
+import config from '../../config';
 
 const logInUser = async(email:string, password:string)=>{
     
@@ -15,7 +17,16 @@ const logInUser = async(email:string, password:string)=>{
         throw new Error('invalid pass')
     }
 
-    return user;
+    const JwtPayload = {
+        id: user.rows[0].id,
+        name: user.rows[0].name,
+        email : user.rows[0].email
+    }
+
+    const secret = config.jwt_secret
+    const token = jwt.sign(JwtPayload,secret as string, {expiresIn: "7d"})
+
+    return {token,user: user.rows[0]};
 }
 
 export const authServices = {
