@@ -20,7 +20,8 @@ const logInUser = async(email:string, password:string)=>{
     const JwtPayload = {
         id: user.rows[0].id,
         name: user.rows[0].name,
-        email : user.rows[0].email
+        email : user.rows[0].email,
+        role : user.rows[0].role
     }
 
     const secret = config.jwt_secret
