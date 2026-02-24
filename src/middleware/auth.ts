@@ -4,7 +4,8 @@ import config from '../config';
 
 const auth = () =>{
     return async (req:Request,res:Response,next:NextFunction)=>{
-        const token = req.headers.authorization;
+        try{
+            const token = req.headers.authorization;
         // console.log(token);
         if(!token){
             throw new Error("you are not authorized");
@@ -12,6 +13,12 @@ const auth = () =>{
         const decoded = jwt.verify(token, config.jwt_secret as string)
         console.log(decoded);
         next();
+        }catch(err:any) {
+            res.status(500).json({
+                status: false,
+                message: err.message
+            })
+        }
     }
 }
 
